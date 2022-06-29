@@ -1,0 +1,85 @@
+name: Build and upload binaries to release
+
+on:
+  repository_dispatch:
+    types: [tag-created]
+
+jobs:
+  release:
+    name: Build and Release
+    runs-on: ${{ matrix.triple.os }}
+    strategy:
+      matrix:
+        triple:
+          # x86_64 linux, bin and lib
+          - { 
+              os: ubuntu-latest,
+              target: "x86_64-unknown-linux-gnu",
+              cross: false,
+              artifact_name: x86_64-unknown-linux-gnu.zip
+            }
+          # x86_64 android, bin and lib
+          - {
+              os: ubuntu-latest,
+              target: "x86_64-linux-android",
+              cross: true,
+              artifact_name: x86_64-linux-android.zip
+            }
+          # aarch64 android, bin and lib
+          - {
+              os: ubuntu-latest,
+              target: aarch64-linux-android,
+              cross: true,
+              artifact_name: aarch64-linux-android.zip
+            }
+          # i686 android, bin and lib
+          - {
+              os: ubuntu-latest,
+              target: i686-linux-android,
+              cross: true,
+              artifact_name: i686-linux-android.zip
+            }
+          # armv7 android, bin and lib
+          - {
+              os: ubuntu-latest,
+              target: armv7-linux-androideabi,
+              cross: true,
+              artifact_name: armv7-linux-androideabi.zip
+            }
+          # aarch64 ios, bin and lib
+          - {
+              os: macos-latest,
+              target: aarch64-apple-ios,
+              cross: false,
+              artifact_name: aarch64-apple-ios.zip
+            }
+          # x86_64 ios, bin and lib
+          - {
+              os: macos-latest,
+              target: x86_64-apple-ios,
+              cross: false,
+              artifact_name: x86_64-apple-ios.zip
+            }
+          # universal ios, bin and lib
+          - {
+              os: macos-latest,
+              target: universal,
+              cross: false,
+              artifact_name: universal-ios.zip
+            }
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Build project
+        run: ./build.sh ${{ matrix.triple.target }}
+
+      - name: Upload binary to release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: /tmp/${{ matrix.triple.artifact_name }}
+          asset_name: ${{ matrix.triple.artifact_name }}
+          tag: ${{ github.event.client_payload.new_version }}
+          overwrite: true

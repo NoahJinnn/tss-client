@@ -1,0 +1,8 @@
+language = "C"
+autogen_warning = "// NOTE: Append the lines below to ios/Classes/<your>Plugin.h"
+#namespace = "ffi"
+#include_guard = "CBINDGEN_BINDINGS_H"
+
+[defines]
+"target_os = ios" = "9.0"
+"target_os = macos" = "12.0"

@@ -1,0 +1,111 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug unit tests in library 'client_lib'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--lib",
+                    "--package=TSS-wallet-mobile"
+                ],
+                "filter": {
+                    "name": "client_lib",
+                    "kind": "lib"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug executable 'cli'",
+            "cargo": {
+                "args": [
+                    "build",
+                    "--bin=cli",
+                    "--package=TSS-wallet-mobile"
+                ],
+                "filter": {
+                    "name": "cli",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug unit tests in executable 'cli'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--bin=cli",
+                    "--package=TSS-wallet-mobile"
+                ],
+                "filter": {
+                    "name": "cli",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug executable 'cli wallet'",
+            "cargo": {
+                "args": [
+                    "build",
+                    "--bin=cli",
+                    "--package=TSS-wallet-mobile"
+                ],
+                "filter": {
+                    "name": "cli",
+                    "kind": "bin"
+                }
+            },
+            "args": [
+                "wallet",
+                "-b"
+            ],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug executable 'cli wallet send'",
+            "cargo": {
+                "args": [
+                    "build",
+                    "--bin=cli",
+                    "--package=TSS-wallet-mobile"
+                ],
+                "filter": {
+                    "name": "cli",
+                    "kind": "bin"
+                }
+            },
+            "args": [
+                "wallet",
+                "send",
+                "-a",
+                "0.001",
+                "-t",
+                "0x27c388AF3a2DF6994599638f10A1Ac73c74afe78"
+            ],
+            "cwd": "${workspaceFolder}"
+        },
+    ]
+}
